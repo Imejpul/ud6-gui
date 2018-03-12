@@ -5,32 +5,57 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class NuevoContacto {
-    private JTextField textField2;
-    private JTextField textField3;
-    private JTextField textField1;
-    private JButton button1;
-    private JButton button2;
+    private JTextField textFieldTelf;
+    private JTextField textFieldEmail;
+    private JTextField textFieldNom;
+    private JButton saveButton;
+    private JButton cancelButton;
     private JPanel nuevoContactoPanel;
+    private JLabel emailLabel;
+    private JLabel telfLabel;
+    private JLabel nomLabel;
 
-    public NuevoContacto() {
+    private String nombre;
+    private int telefono;
+    private String email;
 
-        JFrame frame = new JFrame("NuevoContacto");
+    private void almacenarDatosCampos() {
+
+        nombre = textFieldNom.getText();
+        telefono = Integer.parseInt(textFieldTelf.getText());
+        email = textFieldEmail.getText();
+    }
+
+    private void limpiarCampos() {
+        textFieldNom.setText("");
+        textFieldTelf.setText("");
+        textFieldEmail.setText("");
+    }
+
+    public NuevoContacto(Agenda vp) {
+
+        JFrame frame = new JFrame("Nuevo Contacto");
         frame.setContentPane(nuevoContactoPanel);
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
+        frame.setLocationRelativeTo(vp.getPanelAgenda());
         frame.setVisible(true);
 
-        button1.addActionListener(new ActionListener() {
+        saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                
+                almacenarDatosCampos();
+                vp.getContactos().add(new Contacto(nombre, telefono, email));
+                limpiarCampos();
             }
         });
 
-        button2.addActionListener(new ActionListener() {
+        cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                limpiarCampos();
+                frame.dispose();
             }
         });
     }
